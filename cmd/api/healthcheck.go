@@ -2,6 +2,6 @@ package main
 
 import "net/http"
 
-func (app *application) HealthCheckHandler(w http.ResponseWriter, r *http.Request) {
+func (app *Application) HealthCheckHandler(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("server is healthy"))
 }

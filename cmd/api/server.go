@@ -5,19 +5,21 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/Dom-HTG/go-template/internal/store"
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"
 )
 
-type application struct {
-	config config
+type Application struct {
+	config config         // concrete implementation for application configurations.
+	store  *store.Storage // concrete implementations for database interactions.
 }
 
 type config struct {
 	addr string
 }
 
-func (app *application) mount() *chi.Mux {
+func (app *Application) mount() *chi.Mux {
 	router := chi.NewRouter()
 
 	// base middleware stack.
@@ -43,7 +45,7 @@ func (app *application) mount() *chi.Mux {
 	return router
 }
 
-func (app *application) startServer(mux *chi.Mux) error {
+func (app *Application) startServer(mux *chi.Mux) error {
 
 	srv := &http.Server{
 		Addr:         app.config.addr,

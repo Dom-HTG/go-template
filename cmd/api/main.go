@@ -4,6 +4,7 @@ import (
 	"log"
 
 	"github.com/Dom-HTG/go-template/internal/env"
+	"github.com/Dom-HTG/go-template/internal/store"
 	"github.com/joho/godotenv"
 )
 
@@ -20,12 +21,15 @@ func main() {
 	cfg := config{
 		addr: env.GetStringEnv("APP_PORT", ":8080"),
 	}
+	// Init store
+	str := store.NewStorage(nil)
 
-	app := &application{
+	app := &Application{
 		config: cfg,
+		store:  str,
 	}
 
-	mux := app.mount()
+	mux := app.mount() // the mount method registers all of the applications middlewares and routes.
 
 	log.Fatal(app.startServer(mux))
 }
