@@ -16,7 +16,15 @@ type Application struct {
 }
 
 type config struct {
-	addr string
+	addr string   // application port address [e.g ":8080"].
+	db   dbConfig // implementation for database conn and interactions.
+}
+
+type dbConfig struct {
+	dsn            string // URI for connecting application to database.
+	maxOpenConn    int    // Max number of open parallel connections.
+	maxIdleConn    int    // Max numbeer of idle connections.
+	maxIdleTimeout string // Time duration for refreshing idle connections.
 }
 
 func (app *Application) mount() *chi.Mux {
